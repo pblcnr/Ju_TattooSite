@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calulado de Orçamento</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,600&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="Images/favicon.ico" type="image/x-icon">
+    <style>
+        #calculator {
+            height: 440px;
+            width: 750px;
+            padding: 20px;
+            margin: 0 auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            font-size: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 0px;
+            margin-bottom: 90px;
+            border-radius: 50px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #fff;
+            text-shadow: 0.2em 0.2em 0.2em black;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #fff;
+            text-shadow: 0.2em 0.2em 0.2em black;
+
+
+        }
+
+        input,
+        select {
+            width: 50%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border-radius: 35px;
+        }
+
+        button {
+            margin-top: 10px;
+            background-color: rgba(146, 144, 144, 0.4);
+            color: #fff;
+            padding: 20px 25px;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background-color: #4e8b51;
+        }
+
+        #resultado {
+            color: #fff;
+            margin-top: 10px;
+            font-size: 22px;
+
+        }
+    </style>
+</head>
+
+<body class="orcamentosbody">
+    <header class="header">
+        <img src="Images/logocerto.png" class="logo">
+        <nav>
+            <ul class="lista_cabecalho">
+                <li><a href="index.html"><b></b>Home</a></li>
+                <li><a href="galeria.html">Galeria</a> </li>
+                <li><a href="disponiveis.html">Disponíveis</a> </li>
+                <li><a href="orçamentos.html">Orçamentos</a></li>
+                <li><a href="historia.html">Minha História</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="divbody">
+
+
+        <div class="calculadora" id="calculator">
+            <h1>Calculadora de Orçamento de Tatuagem</h1>
+            <br>
+
+            <label for="parteCorpo">Escolha a parte do corpo:</label>
+            <select id="parteCorpo">
+                <option value="cabeca">Cabeça</option>
+                <option value="membrosSuperiores">Membros Superiores</option>
+                <option value="ombros">Ombros</option>
+                <option value="peito">Peito</option>
+                <option value="barriga">Barriga</option>
+                <option value="costas">Costas</option>
+                <option value="membrosInferiores">Membros Inferiores</option>
+                <option value="pe">Pé</option>
+
+            </select>
+
+            <label for="tamanho">Tamanho da Tatuagem (cm):</label>
+            <input type="number" id="tamanho" placeholder="Informe o tamanho da tatuagem (cm)" required>
+
+            <label for="cores">Número de Cores:</label>
+            <input type="number" id="cores" placeholder="Informe o número de cores" required>
+            <br>
+            <button onclick="calcularOrcamento()">Calcular Orçamento</button>
+
+            <div id="resultado"></div>
+        </div>
+       
+
+
+        </div>
+
+        <script>
+            function calcularOrcamento() {
+                // Obter valores dos campos de entrada
+                const tamanhoTatuagem = parseFloat(document.getElementById('tamanho').value);
+                const coresTatuagem = parseInt(document.getElementById('cores').value);
+                const parteCorpo = document.getElementById('parteCorpo').value;
+
+                // Se os valores forem válidos, calcular o orçamento
+                if (!isNaN(tamanhoTatuagem) && !isNaN(coresTatuagem)) {
+                    const precoPorCm = 18;
+                    const precoPorCor = 75; // Preço adicional a partir da segunda cor
+                    const precoAdicionalPorParte = 75;
+                    const precoMinimo = 100;
+
+                    let precoBase = tamanhoTatuagem * precoPorCm;
+                    const precoCores = (coresTatuagem > 1) ? (coresTatuagem - 1) * precoPorCor : 0;
+
+                    // Adicionar custo adicional para todas as partes mencionadas
+                    if (parteCorpo === 'pescoço' || parteCorpo === 'cabeca' || parteCorpo === 'pe' || parteCorpo === 'ombros' || parteCorpo === 'costas') {
+                        precoBase += precoAdicionalPorParte;
+                    }
+
+                    // Calcular o preço total antes de adicionar o custo das cores
+                    let precoTotal = precoBase;
+
+                    // Adicionar o custo das cores
+                    precoTotal += precoCores;
+
+                    // Verificar se o preço total é inferior a R$ 100 e ajustar para o mínimo
+                    if (precoTotal < precoMinimo) {
+                        precoTotal = precoMinimo;
+                    }
+
+                    // Exibir o resultado
+                    document.getElementById('resultado').innerHTML = `O orçamento para a tatuagem é de R$ ${precoTotal.toFixed(2)}`;
+                } else {
+                    // Exibir mensagem de erro se os valores não forem válidos
+                    document.getElementById('resultado').innerHTML = 'Por favor, insira valores válidos.';
+                }
+            }
+        </script>
+       <footer>
+        <div class="footer">
+            <div class="social">
+                <a href="https://www.instagram.com/jutattoo.ink/" target="_blank"> @jutattooink</a></p>                <p>Júlia Molina</p>
+                <p>julia.tattoo.studio@gmail.com</p>
+                <p>Telefone: (16) 99423-2463</p>
+
+            </div>
+            <div class="address">
+                <p>Rua Uruguai, 1245 </p>
+                <p>Jardim Consolação</p>
+                <p>Franca</p>
+                <p>São Paulo</p>
+
+            </div>
+        </div>
+    </footer>
+    </div>
+
+
+</body>
+
+</html>
